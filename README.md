@@ -1,38 +1,74 @@
-# DiliGenie AI Assistant 🤖# DiliGenie AI Assistant 🤖
+# DiliGenie AI Assistant 🤖# DiliGenie AI Assistant 🤖# DiliGenie AI Assistant 🤖
 
 
 
-## 📺 Demo Video> A production-ready AI personal assistant with chat, voice, and document intelligence powered by OpenRouter and Pinecone.
+## 📺 Demo Video
 
 
 
-[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://youtube.com/your-video-link-here)## 📺 Demo Video
+[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://youtube.com/your-video-link-here)## 📺 Demo Video> A production-ready AI personal assistant with chat, voice, and document intelligence powered by OpenRouter and Pinecone.
 
 
 
-*Add your YouTube video link above*[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://youtube.com/your-video-link-here)
+*Add your YouTube video link above*
 
 
 
-## 🚀 Setup*Add your YouTube video link above to show how DiliGenie works!*
+## 🚀 Setup[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://youtube.com/your-video-link-here)## 📺 Demo Video
 
 
 
-```bash## 🚀 Quick Start
+```bash
 
 # Install
 
-npm install### 1. Install Dependencies
+npm install*Add your YouTube video link above*[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://youtube.com/your-video-link-here)
 
 
 
-# Configure .env file```bash
+# Configure .env file
 
-OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxxnpm install
+OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxx
+
+PINECONE_API_KEY=your-pinecone-key## 🚀 Setup*Add your YouTube video link above to show how DiliGenie works!*
+
+
+
+# Run
+
+npm run dev
+
+``````bash## 🚀 Quick Start
+
+
+
+**Get API Keys:**# Install
+
+- OpenRouter: https://openrouter.ai/keys
+
+- Pinecone: https://app.pinecone.io/npm install### 1. Install Dependencies
+
+
+
+## 👤 Author
+
+
+
+**Krishna Bantola**# Configure .env file```bash
+
+
+
+GitHub: [@krishnabantola](https://github.com/krishnabantola)  OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxxnpm install
+
+LinkedIn: [Krishna Bantola](https://linkedin.com/in/krishnabantola)
 
 PINECONE_API_KEY=your-pinecone-key```
 
+---
 
+
+
+Made with ❤️ by Krishna Bantola
 
 # Run### 2. Configure Environment
 
