@@ -116,80 +116,83 @@ export default async function handler(req, res) {
         // 2. Store in Pinecone vector database
         // For now, we'll just return the chunks
 
-        // Send immediate response - don't wait for indexing
+        // Index to Pinecone BEFORE responding (Vercel requires synchronous processing)
+        if (process.env.PINECONE_API_KEY && chunks.length > 0) {
+          try {
+            console.log("🔄 Starting indexing for:", file.originalFilename, `(${chunks.length} chunks)`);
+            
+            // Import embedding and Pinecone functions
+            const { generateEmbedding } = require("../../lib/embeddings");
+            const { upsertVectors } = require("../../lib/pinecone");
+            
+            // Process in batches of 10
+            const BATCH_SIZE = 10;
+            let totalIndexed = 0;
+            
+            for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
+              const batch = chunks.slice(i, i + BATCH_SIZE);
+              
+              // Generate embeddings in parallel
+              const embeddingPromises = batch.map(async (chunk) => {
+                const embedding = await generateEmbedding(chunk.text);
+                return {
+                  id: chunk.id,
+                  values: embedding,
+                  metadata: {
+                    text: chunk.text.substring(0, 1000), // Store first 1000 chars
+                    ...chunk.metadata,
+                  },
+                };
+              });
+              
+              const vectors = await Promise.all(embeddingPromises);
+              
+              // Upsert to Pinecone
+              await upsertVectors(vectors);
+              totalIndexed += vectors.length;
+              
+              console.log(`📊 Indexed ${totalIndexed}/${chunks.length} chunks for: ${file.originalFilename}`);
+            }
+            
+            console.log(`✅ Indexing completed for: ${file.originalFilename} (${totalIndexed} chunks)`);
+            
+            // Clean up temporary file
+            try {
+              if (fs.existsSync(file.filepath)) {
+                fs.unlinkSync(file.filepath);
+                console.log("🗑️ Cleaned up temporary file");
+              }
+            } catch (cleanupError) {
+              console.warn("⚠️ Cleanup error:", cleanupError.message);
+            }
+          } catch (indexError) {
+            console.error("⚠️ Indexing error:", indexError.message);
+            // Still respond with success but mention indexing failed
+            res.status(200).json({
+              success: true,
+              id: file.newFilename,
+              filename: file.originalFilename,
+              size: file.size,
+              chunks: chunks.length,
+              message: `File "${file.originalFilename}" uploaded but indexing failed: ${indexError.message}`,
+              indexingFailed: true,
+            });
+            return;
+          }
+        } else if (!process.env.PINECONE_API_KEY) {
+          console.warn("⚠️ Pinecone API key not configured, skipping indexing");
+        }
+
+        // Send response after indexing completes
         res.status(200).json({
           success: true,
           id: file.newFilename,
           filename: file.originalFilename,
           size: file.size,
           chunks: chunks.length,
-          message: `File "${file.originalFilename}" uploaded successfully (${chunks.length} chunks created)`,
-          processing: true, // Indicates background processing
+          message: `File "${file.originalFilename}" uploaded and indexed successfully (${chunks.length} chunks)`,
+          indexed: true,
         });
-
-        // Start indexing in background AFTER response is sent
-        if (process.env.PINECONE_API_KEY && chunks.length > 0) {
-          setImmediate(async () => {
-            try {
-              console.log("🔄 Starting background indexing for:", file.originalFilename, `(${chunks.length} chunks)`);
-              
-              // Import embedding and Pinecone functions
-              const { generateEmbedding } = require("../../lib/embeddings");
-              const { upsertVectors } = require("../../lib/pinecone");
-              
-              // Process in batches of 10
-              const BATCH_SIZE = 10;
-              let totalIndexed = 0;
-              
-              for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
-                const batch = chunks.slice(i, i + BATCH_SIZE);
-                
-                // Generate embeddings in parallel
-                const embeddingPromises = batch.map(async (chunk) => {
-                  const embedding = await generateEmbedding(chunk.text);
-                  return {
-                    id: chunk.id,
-                    values: embedding,
-                    metadata: {
-                      text: chunk.text.substring(0, 1000), // Store first 1000 chars
-                      ...chunk.metadata,
-                    },
-                  };
-                });
-                
-                const vectors = await Promise.all(embeddingPromises);
-                
-                // Upsert to Pinecone
-                await upsertVectors(vectors);
-                totalIndexed += vectors.length;
-                
-                console.log(`📊 Indexed ${totalIndexed}/${chunks.length} chunks for: ${file.originalFilename}`);
-              }
-              
-              console.log(`✅ Background indexing completed for: ${file.originalFilename} (${totalIndexed} chunks)`);
-              
-              // Clean up temporary file (important on Vercel to avoid /tmp filling up)
-              try {
-                if (fs.existsSync(file.filepath)) {
-                  fs.unlinkSync(file.filepath);
-                  console.log("🗑️ Cleaned up temporary file");
-                }
-              } catch (cleanupError) {
-                console.warn("⚠️ Cleanup error:", cleanupError.message);
-              }
-            } catch (error) {
-              console.error("⚠️ Background indexing error:", error.message);
-              // Still clean up on error
-              try {
-                if (fs.existsSync(file.filepath)) {
-                  fs.unlinkSync(file.filepath);
-                }
-              } catch {}
-            }
-          });
-        } else if (!process.env.PINECONE_API_KEY) {
-          console.warn("⚠️ Pinecone API key not configured, skipping indexing");
-        }
       } catch (processError) {
         console.error("File processing error:", processError);
         fs.unlinkSync(file.filepath);
