@@ -63,7 +63,7 @@ export default function SimpleVoiceChat({ onClose }) {
         
         // Track error rate
         const now = Date.now();
-        if (now - lastErrorTimeRef.current < 3000) {
+        if (now - lastErrorTimeRef.current < 5000) { // 5 seconds window
           errorCountRef.current++;
         } else {
           errorCountRef.current = 1;
@@ -71,11 +71,22 @@ export default function SimpleVoiceChat({ onClose }) {
         lastErrorTimeRef.current = now;
         
         // If too many errors in short time, stop trying
-        if (errorCountRef.current > 5) {
+        if (errorCountRef.current >= 3) { // Stop after just 3 errors
           console.log("🛑 Too many errors, stopping recognition");
-          setError("Voice recognition unavailable. Please check your microphone and try again.");
+          setError("Voice recognition unavailable. Please refresh and try again.");
           setIsActive(false);
           isActiveRef.current = false;
+          setIsListening(false);
+          
+          // Stop recognition completely
+          try {
+            if (recognitionRef.current) {
+              recognitionRef.current.stop();
+            }
+          } catch (e) {
+            console.log("Stop error:", e.message);
+          }
+          
           errorCountRef.current = 0;
           return;
         }
@@ -89,8 +100,8 @@ export default function SimpleVoiceChat({ onClose }) {
           console.log("No speech detected, will auto-restart...");
           setError("");
         } else if (event.error === 'network') {
-          console.log("Network error - will retry...");
-          setError("Connection issue - retrying...");
+          console.log(`Network error (${errorCountRef.current}/3) - will retry...`);
+          setError(`Connection issue (${errorCountRef.current}/3) - retrying...`);
         } else {
           setError(`Error: ${event.error}`);
         }
@@ -100,12 +111,20 @@ export default function SimpleVoiceChat({ onClose }) {
         console.log("🔴 Recognition ended");
         setIsListening(false); // Stop listening indicator
         
+        // Don't restart if too many errors
+        if (errorCountRef.current >= 3) {
+          console.log("🛑 Not restarting due to error count");
+          setIsActive(false);
+          isActiveRef.current = false;
+          return;
+        }
+        
         // Auto-restart if still active and not processing/speaking (use refs for current values)
         if (isActiveRef.current && !isProcessingRef.current && !isSpeakingRef.current) {
           console.log("🔄 Auto-restarting recognition (no activity detected)...");
           
           // Add longer delay if we've had recent errors
-          const delay = errorCountRef.current > 0 ? 2000 : 500;
+          const delay = errorCountRef.current > 0 ? 3000 : 500; // 3 seconds if errors
           
           setTimeout(() => {
             if (isActiveRef.current && recognitionRef.current && !isProcessingRef.current && !isSpeakingRef.current) {
@@ -113,10 +132,7 @@ export default function SimpleVoiceChat({ onClose }) {
                 recognitionRef.current.start();
                 setIsListening(true); // Start listening indicator
                 console.log("✅ Recognition restarted!");
-                // Reset error count on successful restart
-                if (errorCountRef.current > 0) {
-                  errorCountRef.current = Math.max(0, errorCountRef.current - 1);
-                }
+                // Don't reset error count - let it naturally expire after 5 seconds
               } catch (e) {
                 if (e.message.includes('already started')) {
                   console.log("Recognition already running");
