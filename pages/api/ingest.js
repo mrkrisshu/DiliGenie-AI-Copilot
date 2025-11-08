@@ -7,7 +7,6 @@
 const formidable = require("formidable");
 const fs = require("fs");
 const path = require("path");
-const pdfParse = require("pdf-parse");
 const { v4: uuidv4 } = require("uuid");
 const { upsertVectors } = require("../../lib/pinecone");
 const { addDocument } = require("../../lib/database");
@@ -145,11 +144,45 @@ export default async function handler(req, res) {
 
           // Extract text based on file type
           if (docType === "application/pdf" || docName.endsWith(".pdf")) {
-            console.log("📖 Extracting PDF text...");
-            const dataBuffer = fs.readFileSync(filePath);
-            const pdfData = await pdfParse(dataBuffer);
-            text = pdfData.text;
-            console.log(`✅ Extracted ${text.length} characters from PDF`);
+            console.log("📖 Extracting PDF text with PDF.js...");
+            
+            try {
+              const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.js');
+              
+              const dataBuffer = fs.readFileSync(filePath);
+              const data = new Uint8Array(dataBuffer);
+              
+              const loadingTask = pdfjsLib.getDocument({
+                data: data,
+                useSystemFonts: true,
+                standardFontDataUrl: `https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/standard_fonts/`,
+              });
+              
+              const pdfDocument = await loadingTask.promise;
+              const numPages = pdfDocument.numPages;
+              console.log(`📄 Processing PDF with ${numPages} pages`);
+              
+              let textContent = [];
+              
+              // Extract text from all pages
+              for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+                const page = await pdfDocument.getPage(pageNum);
+                const content = await page.getTextContent();
+                const pageText = content.items.map(item => item.str).join(' ');
+                textContent.push(pageText);
+              }
+              
+              text = textContent.join('\n\n');
+              console.log(`✅ Extracted ${numPages} pages, ${text.length} characters from PDF`);
+              
+              // Cleanup
+              await pdfDocument.cleanup();
+              await pdfDocument.destroy();
+              
+            } catch (pdfError) {
+              console.error("❌ PDF parsing error:", pdfError);
+              throw new Error(`PDF processing failed: ${pdfError.message}`);
+            }
           } else if (docType.startsWith("text/") || docName.endsWith(".txt")) {
             text = fs.readFileSync(filePath, "utf-8");
           } else {

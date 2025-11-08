@@ -76,16 +76,42 @@ export default async function handler(req, res) {
         // Parse different file types
         if (fileExt === '.pdf') {
           try {
-            // For PDFs, use pdf-parse
-            const pdfParse = require('pdf-parse');
+            // Use PDF.js (works in serverless environments)
+            const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.js');
+            
             const dataBuffer = fs.readFileSync(file.filepath);
-            const pdfData = await pdfParse(dataBuffer);
-            fileContent = pdfData.text;
-            console.log(`📄 Extracted ${pdfData.numpages} pages from PDF, ${fileContent.length} chars`);
+            const data = new Uint8Array(dataBuffer);
+            
+            const loadingTask = pdfjsLib.getDocument({
+              data: data,
+              useSystemFonts: true,
+              standardFontDataUrl: `https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/standard_fonts/`,
+            });
+            
+            const pdfDocument = await loadingTask.promise;
+            const numPages = pdfDocument.numPages;
+            console.log(`📄 Processing PDF with ${numPages} pages`);
+            
+            let textContent = [];
+            
+            // Extract text from all pages
+            for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+              const page = await pdfDocument.getPage(pageNum);
+              const content = await page.getTextContent();
+              const pageText = content.items.map(item => item.str).join(' ');
+              textContent.push(pageText);
+            }
+            
+            fileContent = textContent.join('\n\n');
+            console.log(`✅ Extracted ${numPages} pages from PDF, ${fileContent.length} chars`);
+            
+            // Cleanup
+            await pdfDocument.cleanup();
+            await pdfDocument.destroy();
+            
           } catch (pdfError) {
-            console.warn("⚠️ PDF parsing failed:", pdfError.message);
-            // For Vercel, just use a placeholder
-            fileContent = `[PDF Document: ${file.originalFilename}]\n\nPDF parsing not available on serverless. Please use text files or enable external PDF processing.`;
+            console.error("❌ PDF parsing error:", pdfError);
+            throw new Error(`PDF processing failed: ${pdfError.message}`);
           }
         } else {
           // For text files, read as UTF-8
