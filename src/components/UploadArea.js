@@ -100,6 +100,7 @@ export default function UploadArea({ onUploadComplete }) {
           <div className="space-y-4">
             <div className="text-5xl">📤</div>
             <div className="text-lg font-semibold">Uploading...</div>
+            <div className="text-sm text-gray-500">File upload is fast! Indexing happens in background.</div>
 
             {/* Progress Bar */}
             <div className="w-full max-w-md mx-auto h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">

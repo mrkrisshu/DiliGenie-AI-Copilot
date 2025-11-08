@@ -47,10 +47,10 @@ async function ingestDocument(text, metadata) {
   
   const vectors = [];
 
-  console.log("🔢 Generating embeddings in batches of 5...");
+  console.log("🔢 Generating embeddings in batches of 10...");
   
-  // Process in batches of 5 for speed (parallel API calls)
-  const BATCH_SIZE = 5;
+  // Process in batches of 10 for faster speed (parallel API calls)
+  const BATCH_SIZE = 10;
   for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
     const batch = chunks.slice(i, i + BATCH_SIZE);
     console.log(`   Progress: ${i}/${chunks.length} chunks...`);

@@ -94,45 +94,49 @@ export default async function handler(req, res) {
         // 2. Store in Pinecone vector database
         // For now, we'll just return the chunks
 
-        // Optional: Call the ingest API to process the document (fire and forget - don't wait)
-        if (process.env.PINECONE_API_KEY) {
-          // Start ingestion in background without waiting
-          fetch(
-            `${
-              process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001"
-            }/api/ingest`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                filename: file.originalFilename,
-                content: fileContent,
-                metadata: {
-                  uploadedAt: new Date().toISOString(),
-                  fileSize: file.size,
-                  fileType: fileExt,
-                },
-              }),
-            }
-          ).then(ingestResponse => {
-            if (!ingestResponse.ok) {
-              console.warn("⚠️  Ingest failed, but file uploaded");
-            } else {
-              console.log("✅ Document ingestion started for:", file.originalFilename);
-            }
-          }).catch(ingestError => {
-            console.warn("⚠️  Ingest error:", ingestError.message);
-          });
-        }
-
+        // Send immediate response - don't wait for indexing
         res.status(200).json({
           success: true,
           id: file.newFilename,
           filename: file.originalFilename,
           size: file.size,
           chunks: chunks.length,
-          message: `File "${file.originalFilename}" uploaded successfully`,
+          message: `File "${file.originalFilename}" uploaded successfully. Indexing in progress...`,
+          processing: true, // Indicates background processing
         });
+
+        // Start ingestion in background AFTER response is sent (fire and forget)
+        if (process.env.PINECONE_API_KEY) {
+          setImmediate(async () => {
+            try {
+              console.log("🔄 Starting background indexing for:", file.originalFilename);
+              const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001"}/api/ingest`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    filename: file.originalFilename,
+                    content: fileContent,
+                    metadata: {
+                      uploadedAt: new Date().toISOString(),
+                      fileSize: file.size,
+                      fileType: fileExt,
+                    },
+                  }),
+                }
+              );
+              
+              if (response.ok) {
+                console.log("✅ Background indexing completed for:", file.originalFilename);
+              } else {
+                console.warn("⚠️  Background indexing failed for:", file.originalFilename);
+              }
+            } catch (error) {
+              console.warn("⚠️  Background indexing error:", error.message);
+            }
+          });
+        }
       } catch (processError) {
         console.error("File processing error:", processError);
         fs.unlinkSync(file.filepath);
