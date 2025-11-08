@@ -18,8 +18,9 @@ class MyDocument extends Document {
             name="description"
             content="DiliGenie AI Assistant - Your personal RAG-powered assistant with voice chat, document upload, and smart dashboard"
           />
-          <meta name="theme-color" content="#000000" />
-          <link rel="icon" href="/favicon.ico" />
+          <meta name="theme-color" content="#FF4757" />
+          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+          <link rel="alternate icon" href="/favicon.ico" />
         </Head>
         <body>
           <Main />
