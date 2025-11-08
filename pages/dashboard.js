@@ -115,29 +115,23 @@ export default function DashboardPage() {
                   </svg>
                 </motion.div>
                 <div>
-                  <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold leading-tight">
-                    DiliGenie
-                  </h1>
-                  <p className="text-xs text-zinc-400 hidden sm:block">Dashboard</p>
+                  <h1 className="text-xl font-bold">DiliGenie AI Assistant</h1>
+                  <p className="text-xs text-zinc-400">Dashboard</p>
                 </div>
               </Link>
 
-              <nav className="flex items-center gap-1 sm:gap-2">
+              <nav className="flex items-center gap-2">
                 <Link href="/chat">
-                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
+                  <span className="px-4 py-2 text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
                     Chat
                   </span>
                 </Link>
                 <Link href="/knowledge">
-                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
+                  <span className="px-4 py-2 text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
                     Knowledge
                   </span>
                 </Link>
-                <Link href="/">
-                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer hidden sm:inline-block">
-                    Home
-                  </span>
-                </Link>
+              </nav>
               </nav>
             </div>
           </div>

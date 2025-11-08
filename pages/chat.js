@@ -108,39 +108,37 @@ export default function ChatPage() {
                   </svg>
                 </motion.div>
                 <div>
-                  <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold leading-tight">
-                    DiliGenie
-                  </h1>
-                  <p className="text-xs text-zinc-400 hidden sm:block">
-                    AI Assistant
+                  <h1 className="text-xl font-bold">DiliGenie AI Assistant</h1>
+                  <p className="text-sm text-zinc-400">
+                    Your Personal AI Companion
                   </p>
                 </div>
               </Link>
 
-              <nav className="flex items-center gap-1 sm:gap-2">
-                {/* DiliGenie Live Button - Mobile Optimized */}
+              <nav className="flex items-center gap-2">
+                {/* DiliGenie Live Button */}
                 <motion.button
                   onClick={() => setShowLiveChat(true)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="touch-target px-3 sm:px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 rounded-lg transition-all flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium whitespace-nowrap"
+                  className="px-3 py-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 rounded-lg transition-all flex items-center gap-2 text-sm font-medium whitespace-nowrap"
                 >
-                  <Mic className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span className="hidden xs:inline">DiliGenie </span>Live
+                  <Mic className="w-4 h-4" />
+                  DiliGenie Live
                 </motion.button>
                 
                 <Link href="/dashboard">
-                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
+                  <span className="px-3 py-2 text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
                     Dashboard
                   </span>
                 </Link>
                 <Link href="/knowledge">
-                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer hidden xs:inline-block">
+                  <span className="px-3 py-2 text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
                     Knowledge
                   </span>
                 </Link>
                 <Link href="/">
-                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer hidden sm:inline-block">
+                  <span className="px-3 py-2 text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
                     Home
                   </span>
                 </Link>

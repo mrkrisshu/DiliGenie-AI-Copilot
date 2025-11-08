@@ -29,7 +29,7 @@ export function GenerativeArtScene() {
       uniforms: {
         time: { value: 0 },
         pointLightPos: { value: new THREE.Vector3(0, 0, 5) },
-        color: { value: new THREE.Color("#FF4757") },
+        color: { value: new THREE.Color("#FF6B8A") }, // Lighter red/pink color
       },
       vertexShader: `                uniform float time;
                 varying vec3 vNormal;
@@ -113,7 +113,7 @@ export function GenerativeArtScene() {
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    const pointLight = new THREE.PointLight(0xff4757, 1, 100);
+    const pointLight = new THREE.PointLight(0xff6b8a, 1, 100); // Lighter red/pink
     pointLight.position.set(0, 0, 5);
     lightRef.current = pointLight;
     scene.add(pointLight);
@@ -249,11 +249,11 @@ export function AnomalousMatterHero({
       <div className="relative z-20 flex-1 flex flex-col items-center justify-center text-center px-6">
         <div className="max-w-5xl px-6 animate-fade-in-long -mt-20">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
-            Meet DiliGenie ΓÇö Your AI Copilot for Intelligent Conversations.
+            Meet DiliGenie — Your AI Copilot for Intelligent Conversations.
           </h1>
           <p className="mt-4 max-w-3xl mx-auto text-base md:text-lg leading-relaxed text-white drop-shadow-[0_3px_10px_rgba(0,0,0,1)]">
             Powered by Retrieval-Augmented Generation, DiliGenie helps you chat
-            with your documents, automate tasks, and generate insights ΓÇö all in
+            with your documents, automate tasks, and generate insights — all in
             one conversational workspace.
           </p>
 
@@ -294,14 +294,14 @@ export function AnomalousMatterHero({
         <div className="max-w-7xl mx-auto flex items-center justify-center">
           <div className="flex items-center gap-4 text-base text-gray-400 flex-wrap justify-center">
             <span className="text-gray-400">Powered by Diligent</span>
-            <span>ΓÇó</span>
-            <span>┬⌐ 2025 DiliGenie</span>
-            <span>ΓÇó</span>
+            <span>•</span>
+            <span>© 2025 DiliGenie</span>
+            <span>•</span>
             <span className="flex items-center gap-1">
-              Made with <span className="text-[#FF4757]">Γ¥ñ∩╕Å</span> by{" "}
-              <span className="text-[#FF6B6B] font-semibold">Krishna</span>
+              Made with <span className="text-[#FF6B8A]">❤️</span> by{" "}
+              <span className="text-[#FF6B8A] font-semibold">Krishna</span>
             </span>
-            <span>ΓÇó</span>
+            <span>•</span>
 
             {/* Social Icons */}
             <div className="flex items-center gap-3">
