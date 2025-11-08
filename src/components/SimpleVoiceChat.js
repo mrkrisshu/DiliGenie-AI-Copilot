@@ -24,6 +24,8 @@ export default function SimpleVoiceChat({ onClose }) {
   const isActiveRef = useRef(false); // Track active state in ref for closures
   const isProcessingRef = useRef(false); // Track processing state
   const isSpeakingRef = useRef(false); // Track speaking state
+  const errorCountRef = useRef(0); // Track consecutive errors
+  const lastErrorTimeRef = useRef(0); // Track last error time
 
   // Initialize on mount
   useEffect(() => {
@@ -59,6 +61,25 @@ export default function SimpleVoiceChat({ onClose }) {
       recognitionRef.current.onerror = (event) => {
         console.log("⚠️ Recognition error:", event.error);
         
+        // Track error rate
+        const now = Date.now();
+        if (now - lastErrorTimeRef.current < 3000) {
+          errorCountRef.current++;
+        } else {
+          errorCountRef.current = 1;
+        }
+        lastErrorTimeRef.current = now;
+        
+        // If too many errors in short time, stop trying
+        if (errorCountRef.current > 5) {
+          console.log("🛑 Too many errors, stopping recognition");
+          setError("Voice recognition unavailable. Please check your microphone and try again.");
+          setIsActive(false);
+          isActiveRef.current = false;
+          errorCountRef.current = 0;
+          return;
+        }
+        
         // Ignore 'aborted' errors (normal when we stop manually)
         if (event.error === 'aborted') {
           return;
@@ -66,8 +87,10 @@ export default function SimpleVoiceChat({ onClose }) {
         
         if (event.error === 'no-speech') {
           console.log("No speech detected, will auto-restart...");
-          // Don't show error, just keep listening
           setError("");
+        } else if (event.error === 'network') {
+          console.log("Network error - will retry...");
+          setError("Connection issue - retrying...");
         } else {
           setError(`Error: ${event.error}`);
         }
@@ -80,21 +103,30 @@ export default function SimpleVoiceChat({ onClose }) {
         // Auto-restart if still active and not processing/speaking (use refs for current values)
         if (isActiveRef.current && !isProcessingRef.current && !isSpeakingRef.current) {
           console.log("🔄 Auto-restarting recognition (no activity detected)...");
+          
+          // Add longer delay if we've had recent errors
+          const delay = errorCountRef.current > 0 ? 2000 : 500;
+          
           setTimeout(() => {
             if (isActiveRef.current && recognitionRef.current && !isProcessingRef.current && !isSpeakingRef.current) {
               try {
                 recognitionRef.current.start();
                 setIsListening(true); // Start listening indicator
                 console.log("✅ Recognition restarted!");
+                // Reset error count on successful restart
+                if (errorCountRef.current > 0) {
+                  errorCountRef.current = Math.max(0, errorCountRef.current - 1);
+                }
               } catch (e) {
                 if (e.message.includes('already started')) {
                   console.log("Recognition already running");
                 } else {
                   console.log("Restart error:", e.message);
+                  errorCountRef.current++;
                 }
               }
             }
-          }, 500);
+          }, delay);
         }
       };
     }
