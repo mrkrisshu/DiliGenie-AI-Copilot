@@ -20,7 +20,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const uploadDir = path.join(process.cwd(), "uploads");
+    // Use /tmp on Vercel (only writable location), ./uploads locally
+    const uploadDir = process.env.VERCEL 
+      ? "/tmp/uploads" 
+      : path.join(process.cwd(), "uploads");
 
     // Create uploads directory if it doesn't exist
     if (!fs.existsSync(uploadDir)) {
@@ -61,6 +64,13 @@ export default async function handler(req, res) {
 
       try {
         console.log("📤 Processing file:", file.originalFilename);
+        console.log("📍 File saved at:", file.filepath);
+        
+        // Check if file exists
+        if (!fs.existsSync(file.filepath)) {
+          throw new Error(`File not found at ${file.filepath}`);
+        }
+        
         let fileContent = "";
         
         // Parse different file types
@@ -73,8 +83,9 @@ export default async function handler(req, res) {
             fileContent = pdfData.text;
             console.log(`📄 Extracted ${pdfData.numpages} pages from PDF, ${fileContent.length} chars`);
           } catch (pdfError) {
-            console.warn("⚠️ PDF parsing failed, treating as text:", pdfError.message);
-            fileContent = `[PDF Document: ${file.originalFilename}]\n\nContent could not be extracted. Please ensure pdf-parse is installed.`;
+            console.warn("⚠️ PDF parsing failed:", pdfError.message);
+            // For Vercel, just use a placeholder
+            fileContent = `[PDF Document: ${file.originalFilename}]\n\nPDF parsing not available on serverless. Please use text files or enable external PDF processing.`;
           }
         } else {
           // For text files, read as UTF-8
@@ -156,8 +167,24 @@ export default async function handler(req, res) {
               }
               
               console.log(`✅ Background indexing completed for: ${file.originalFilename} (${totalIndexed} chunks)`);
+              
+              // Clean up temporary file (important on Vercel to avoid /tmp filling up)
+              try {
+                if (fs.existsSync(file.filepath)) {
+                  fs.unlinkSync(file.filepath);
+                  console.log("🗑️ Cleaned up temporary file");
+                }
+              } catch (cleanupError) {
+                console.warn("⚠️ Cleanup error:", cleanupError.message);
+              }
             } catch (error) {
               console.error("⚠️ Background indexing error:", error.message);
+              // Still clean up on error
+              try {
+                if (fs.existsSync(file.filepath)) {
+                  fs.unlinkSync(file.filepath);
+                }
+              } catch {}
             }
           });
         } else if (!process.env.PINECONE_API_KEY) {
