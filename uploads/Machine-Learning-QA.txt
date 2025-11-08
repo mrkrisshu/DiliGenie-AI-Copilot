@@ -1,0 +1,61 @@
+Machine Learning - Important Questions & Answers
+
+1. What is Machine Learning?
+Machine Learning (ML) is a subset of Artificial Intelligence that allows systems to automatically learn and improve from experience without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.
+
+2. What is Cross-Validation?
+Cross-validation is a resampling technique used to evaluate machine learning models on a limited data sample. The most common method is k-fold cross-validation, where the dataset is divided into k subsets (folds). The model is trained on k-1 folds and validated on the remaining fold. This process is repeated k times, with each fold serving as the validation set once. Cross-validation helps assess how well a model will generalize to an independent dataset and helps detect overfitting.
+
+3. What is the difference between supervised and unsupervised learning?
+Supervised learning uses labeled training data, where each input has a corresponding output. The algorithm learns to map inputs to outputs (e.g., classification, regression). Unsupervised learning uses unlabeled data, and the algorithm tries to find patterns or structure in the data (e.g., clustering, dimensionality reduction).
+
+4. What is overfitting and how can you prevent it?
+Overfitting occurs when a model learns the training data too well, including its noise and outliers, resulting in poor performance on new, unseen data. Prevention methods include: using cross-validation, regularization techniques (L1, L2), reducing model complexity, using dropout in neural networks, increasing training data, and early stopping.
+
+5. What is a Neural Network?
+A Neural Network is a computational model inspired by the human brain. It consists of layers of interconnected nodes (neurons) that process and transmit information. Each connection has a weight that adjusts during training. Neural networks are particularly effective for complex pattern recognition tasks like image classification, speech recognition, and natural language processing.
+
+6. What is Gradient Descent?
+Gradient descent is an optimization algorithm used to minimize the cost function in machine learning models. It iteratively adjusts model parameters in the direction of steepest descent (negative gradient) to find the minimum of the cost function. Variants include batch gradient descent, stochastic gradient descent (SGD), and mini-batch gradient descent.
+
+7. What is the difference between precision and recall?
+Precision measures the accuracy of positive predictions (True Positives / (True Positives + False Positives)). It answers: "Of all the instances we predicted as positive, how many were actually positive?" Recall measures the ability to find all positive instances (True Positives / (True Positives + False Negatives)). It answers: "Of all the actual positive instances, how many did we correctly identify?"
+
+8. What is the F1-Score?
+The F1-score is the harmonic mean of precision and recall. It provides a single metric that balances both precision and recall, especially useful when dealing with imbalanced datasets. F1 = 2 × (Precision × Recall) / (Precision + Recall). A high F1-score indicates both high precision and high recall.
+
+9. What is Regularization?
+Regularization is a technique used to prevent overfitting by adding a penalty term to the cost function. L1 regularization (Lasso) adds the sum of absolute values of coefficients, which can lead to sparse models. L2 regularization (Ridge) adds the sum of squared coefficients, which generally leads to smaller coefficient values but doesn't eliminate them.
+
+10. What is a Confusion Matrix?
+A confusion matrix is a table used to evaluate the performance of a classification model. It shows the counts of true positives, true negatives, false positives, and false negatives. From this matrix, various metrics like accuracy, precision, recall, and F1-score can be calculated.
+
+11. What is Feature Engineering?
+Feature engineering is the process of creating new features or transforming existing ones to improve model performance. It involves selecting relevant features, creating interaction terms, handling missing values, encoding categorical variables, and scaling numerical features.
+
+12. What is the bias-variance tradeoff?
+The bias-variance tradeoff is a fundamental concept in machine learning. Bias refers to errors from overly simplistic assumptions in the learning algorithm (underfitting). Variance refers to errors from excessive complexity in the model (overfitting). The goal is to find the right balance that minimizes total error.
+
+13. What is Random Forest?
+Random Forest is an ensemble learning method that creates multiple decision trees during training and outputs the mode of classes (classification) or mean prediction (regression) of individual trees. It reduces overfitting compared to individual decision trees and provides feature importance rankings.
+
+14. What is Support Vector Machine (SVM)?
+SVM is a supervised learning algorithm used for classification and regression. It finds the optimal hyperplane that maximally separates different classes in feature space. SVMs are effective in high-dimensional spaces and can handle non-linear decision boundaries using kernel functions.
+
+15. What is the difference between bagging and boosting?
+Bagging (Bootstrap Aggregating) trains multiple models independently on random subsets of data and combines their predictions through voting or averaging. Boosting trains models sequentially, where each new model focuses on correcting errors made by previous models. Examples: Random Forest (bagging) vs. AdaBoost, Gradient Boosting (boosting).
+
+16. What is Deep Learning?
+Deep Learning is a subset of machine learning based on artificial neural networks with multiple layers (deep neural networks). It can automatically learn hierarchical feature representations from raw data, making it particularly effective for tasks like image recognition, natural language processing, and speech recognition.
+
+17. What is Convolutional Neural Network (CNN)?
+CNNs are specialized neural networks designed for processing grid-like data such as images. They use convolutional layers that apply filters to detect patterns like edges, textures, and more complex features in deeper layers. CNNs are widely used in computer vision tasks.
+
+18. What is Recurrent Neural Network (RNN)?
+RNNs are neural networks designed to work with sequential data. They maintain an internal state (memory) that allows them to process sequences of inputs, making them suitable for tasks like time series prediction, natural language processing, and speech recognition.
+
+19. What is Transfer Learning?
+Transfer learning is a technique where a model trained on one task is reused as the starting point for a model on a second related task. This is particularly useful when the second task has limited training data. For example, using a pre-trained image classification model for a specific object detection task.
+
+20. What is Data Augmentation?
+Data augmentation is a technique to artificially increase the size and diversity of training data by applying transformations like rotation, flipping, cropping, or adding noise to existing data. This helps prevent overfitting and improves model generalization, especially in computer vision and NLP tasks.

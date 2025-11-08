@@ -186,14 +186,16 @@ export default async function handler(req, res) {
         // Add document to local database for Knowledge Base display
         try {
           const { addDocument } = require("../../lib/database");
-          addDocument({
-            id: file.newFilename,
-            title: file.originalFilename,
-            content: fileContent.substring(0, 500), // Store preview
-            size: file.size,
-            chunks: chunks.length,
-            uploadedAt: new Date().toISOString(),
-          });
+          addDocument(
+            file.originalFilename,  // name
+            fileExt,                 // type
+            file.size,               // size
+            {                        // metadata
+              chunks: chunks.length,
+              uploadedAt: new Date().toISOString(),
+              preview: fileContent.substring(0, 500),
+            }
+          );
           console.log("📝 Added document to local database");
         } catch (dbError) {
           console.warn("⚠️ Failed to add to local database:", dbError.message);
