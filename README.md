@@ -1,7 +1,6 @@
 # DiliGenie AI Assistant 🤖
 
 [![CI/CD](https://github.com/krishnabantola/jarvis-rag-assistant/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/krishnabantola/jarvis-rag-assistant/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 > A production-ready AI personal assistant with chat, voice, and document intelligence powered by OpenRouter and Pinecone. **Now with stunning animated UI and file upload!**
 
