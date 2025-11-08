@@ -76,42 +76,16 @@ export default async function handler(req, res) {
         // Parse different file types
         if (fileExt === '.pdf') {
           try {
-            // Use PDF.js (works in serverless environments)
-            const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.js');
-            
+            console.log("📖 Starting PDF text extraction...");
+            const { extractTextFromPDF } = require("../../lib/pdf-processor");
             const dataBuffer = fs.readFileSync(file.filepath);
-            const data = new Uint8Array(dataBuffer);
-            
-            const loadingTask = pdfjsLib.getDocument({
-              data: data,
-              useSystemFonts: true,
-              standardFontDataUrl: `https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/standard_fonts/`,
-            });
-            
-            const pdfDocument = await loadingTask.promise;
-            const numPages = pdfDocument.numPages;
-            console.log(`📄 Processing PDF with ${numPages} pages`);
-            
-            let textContent = [];
-            
-            // Extract text from all pages
-            for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-              const page = await pdfDocument.getPage(pageNum);
-              const content = await page.getTextContent();
-              const pageText = content.items.map(item => item.str).join(' ');
-              textContent.push(pageText);
-            }
-            
-            fileContent = textContent.join('\n\n');
-            console.log(`✅ Extracted ${numPages} pages from PDF, ${fileContent.length} chars`);
-            
-            // Cleanup
-            await pdfDocument.cleanup();
-            await pdfDocument.destroy();
-            
+            fileContent = await extractTextFromPDF(dataBuffer);
           } catch (pdfError) {
             console.error("❌ PDF parsing error:", pdfError);
-            throw new Error(`PDF processing failed: ${pdfError.message}`);
+            return res.status(500).json({ 
+              error: `PDF processing failed: ${pdfError.message}`,
+              details: process.env.NODE_ENV === 'development' ? pdfError.stack : undefined
+            });
           }
         } else {
           // For text files, read as UTF-8
