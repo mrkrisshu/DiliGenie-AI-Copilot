@@ -1,4 +1,4 @@
-# DiliGenie AI Assistant 🤖# DiliGenie AI Assistant 🤖# DiliGenie AI Assistant 🤖
+# DiliGenie AI Assistant 
 
 
 
