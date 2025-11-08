@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, Suspense } from "react";
+﻿import React, { useRef, useEffect, Suspense } from "react";
 import * as THREE from "three";
 import Link from "next/link";
 
@@ -252,11 +252,11 @@ export function AnomalousMatterHero({
       <div className="relative z-20 flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-6 safe-left safe-right">
         <div className="max-w-5xl w-full animate-fade-in-long -mt-12 sm:-mt-16 md:-mt-20">
           <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 sm:mb-6 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
-            Meet DiliGenie — Your AI Copilot for Intelligent Conversations.
+            Meet DiliGenie ΓÇö Your AI Copilot for Intelligent Conversations.
           </h1>
           <p className="mt-3 sm:mt-4 max-w-3xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed text-white/90 drop-shadow-[0_3px_10px_rgba(0,0,0,1)] px-2">
             Powered by Retrieval-Augmented Generation, DiliGenie helps you chat
-            with your documents, automate tasks, and generate insights — all in
+            with your documents, automate tasks, and generate insights ΓÇö all in
             one conversational workspace.
           </p>
 
@@ -297,17 +297,17 @@ export function AnomalousMatterHero({
         <div className="max-w-7xl mx-auto flex items-center justify-center">
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-400">
             <span className="text-gray-400">Powered by Diligent</span>
-            <span className="hidden sm:inline">•</span>
-            <span>© 2025 DiliGenie</span>
-            <span className="hidden sm:inline">•</span>
+            <span className="hidden sm:inline">ΓÇó</span>
+            <span>┬⌐ 2025 DiliGenie</span>
+            <span className="hidden sm:inline">ΓÇó</span>
             
             {/* Made with love - Stack on mobile */}
             <span className="flex items-center gap-1 w-full sm:w-auto justify-center">
-              Made with <span className="text-[#FF4757]">❤️</span> by{" "}
+              Made with <span className="text-[#FF4757]">Γ¥ñ∩╕Å</span> by{" "}
               <span className="text-[#FF6B6B] font-semibold">Krishna</span>
             </span>
             
-            <span className="hidden sm:inline">•</span>
+            <span className="hidden sm:inline">ΓÇó</span>
 
             {/* Social Icons - Mobile Optimized */}
             <div className="flex items-center gap-3 sm:gap-4">
