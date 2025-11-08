@@ -1,39 +1,75 @@
-# DiliGenie AI Assistant 🤖
+# DiliGenie AI Assistant 🤖# DiliGenie AI Assistant 🤖
 
-> A production-ready AI personal assistant with chat, voice, and document intelligence powered by OpenRouter and Pinecone.
 
-## 📺 Demo Video
 
-[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://youtube.com/your-video-link-here)
+## 📺 Demo Video> A production-ready AI personal assistant with chat, voice, and document intelligence powered by OpenRouter and Pinecone.
 
-*Add your YouTube video link above to show how DiliGenie works!*
 
-## 🚀 Quick Start
 
-### 1. Install Dependencies
+[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://youtube.com/your-video-link-here)## 📺 Demo Video
 
-```bash
-npm install
-```
 
-### 2. Configure Environment
 
-Create a `.env` file with your API keys:
+*Add your YouTube video link above*[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://youtube.com/your-video-link-here)
 
-```bash
-OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxx
-OPENROUTER_MODEL=google/gemini-flash-1.5
+
+
+## 🚀 Setup*Add your YouTube video link above to show how DiliGenie works!*
+
+
+
+```bash## 🚀 Quick Start
+
+# Install
+
+npm install### 1. Install Dependencies
+
+
+
+# Configure .env file```bash
+
+OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxxnpm install
+
+PINECONE_API_KEY=your-pinecone-key```
+
+
+
+# Run### 2. Configure Environment
+
+npm run dev
+
+```Create a `.env` file with your API keys:
+
+
+
+**Get API Keys:**```bash
+
+- OpenRouter: https://openrouter.ai/keysOPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxx
+
+- Pinecone: https://app.pinecone.io/OPENROUTER_MODEL=google/gemini-flash-1.5
+
 PINECONE_API_KEY=your-pinecone-key
-PINECONE_ENVIRONMENT=us-east-1-aws
+
+## 👤 AuthorPINECONE_ENVIRONMENT=us-east-1-aws
+
 ```
+
+**Krishna Bantola**
 
 **Get API Keys:**
-- OpenRouter: https://openrouter.ai/keys (get $6 free credits)
-- Pinecone: https://app.pinecone.io/ (free tier available)
 
-### 3. Start the App
+GitHub: [@krishnabantola](https://github.com/krishnabantola)  - OpenRouter: https://openrouter.ai/keys (get $6 free credits)
 
-```bash
+LinkedIn: [Krishna Bantola](https://linkedin.com/in/krishnabantola)- Pinecone: https://app.pinecone.io/ (free tier available)
+
+
+
+---### 3. Start the App
+
+
+
+Made with ❤️ by Krishna Bantola```bash
+
 npm run dev
 ```
 
