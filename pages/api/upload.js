@@ -60,19 +60,30 @@ export default async function handler(req, res) {
       }
 
       try {
-        let fileContent;
+        console.log("📤 Processing file:", file.originalFilename);
+        let fileContent = "";
         
         // Parse different file types
         if (fileExt === '.pdf') {
-          // For PDFs, use pdf-parse
-          const pdfParse = require('pdf-parse');
-          const dataBuffer = fs.readFileSync(file.filepath);
-          const pdfData = await pdfParse(dataBuffer);
-          fileContent = pdfData.text;
-          console.log(`📄 Extracted ${pdfData.numpages} pages from PDF, ${fileContent.length} chars`);
+          try {
+            // For PDFs, use pdf-parse
+            const pdfParse = require('pdf-parse');
+            const dataBuffer = fs.readFileSync(file.filepath);
+            const pdfData = await pdfParse(dataBuffer);
+            fileContent = pdfData.text;
+            console.log(`📄 Extracted ${pdfData.numpages} pages from PDF, ${fileContent.length} chars`);
+          } catch (pdfError) {
+            console.warn("⚠️ PDF parsing failed, treating as text:", pdfError.message);
+            fileContent = `[PDF Document: ${file.originalFilename}]\n\nContent could not be extracted. Please ensure pdf-parse is installed.`;
+          }
         } else {
           // For text files, read as UTF-8
-          fileContent = fs.readFileSync(file.filepath, "utf8");
+          try {
+            fileContent = fs.readFileSync(file.filepath, "utf8");
+          } catch (readError) {
+            console.error("❌ File read error:", readError);
+            fileContent = `[File: ${file.originalFilename}]`;
+          }
         }
 
         // Simple text chunking (split into paragraphs)

@@ -51,11 +51,17 @@ export default function UploadArea({ onUploadComplete }) {
         setProgress((prev) => Math.min(prev + 10, 90));
       }, 200);
 
-      const response = await fetch("/api/ingest", {
+      // Add timeout to prevent infinite loading
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
+      const response = await fetch("/api/upload", {
         method: "POST",
         body: formData,
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       clearInterval(progressInterval);
       setProgress(100);
 
@@ -65,6 +71,9 @@ export default function UploadArea({ onUploadComplete }) {
         throw new Error(data.error || "Upload failed");
       }
 
+      // Show success message
+      console.log("✅ Upload successful:", data.message);
+      
       setTimeout(() => {
         setIsUploading(false);
         setProgress(0);
@@ -72,7 +81,15 @@ export default function UploadArea({ onUploadComplete }) {
       }, 500);
     } catch (error) {
       console.error("Upload error:", error);
-      alert(`Upload failed: ${error.message}`);
+      
+      let errorMessage = "Upload failed";
+      if (error.name === 'AbortError') {
+        errorMessage = "Upload timed out. Please try a smaller file.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      alert(errorMessage);
       setIsUploading(false);
       setProgress(0);
     }
