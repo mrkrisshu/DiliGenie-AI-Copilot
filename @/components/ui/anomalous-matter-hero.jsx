@@ -29,7 +29,7 @@ export function GenerativeArtScene() {
       uniforms: {
         time: { value: 0 },
         pointLightPos: { value: new THREE.Vector3(0, 0, 5) },
-        color: { value: new THREE.Color("#FF6B8A") }, // Lighter red/pink color
+        color: { value: new THREE.Color("#FF3333") }, // Bright vibrant red
       },
       vertexShader: `                uniform float time;
                 varying vec3 vNormal;
@@ -113,7 +113,7 @@ export function GenerativeArtScene() {
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    const pointLight = new THREE.PointLight(0xff6b8a, 1, 100); // Lighter red/pink
+    const pointLight = new THREE.PointLight(0xff3333, 1.5, 100); // Bright red with higher intensity
     pointLight.position.set(0, 0, 5);
     lightRef.current = pointLight;
     scene.add(pointLight);
