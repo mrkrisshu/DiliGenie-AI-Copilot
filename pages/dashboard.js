@@ -132,7 +132,6 @@ export default function DashboardPage() {
                   </span>
                 </Link>
               </nav>
-              </nav>
             </div>
           </div>
         </header>

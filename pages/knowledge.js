@@ -132,7 +132,6 @@ export default function KnowledgePage() {
                   </span>
                 </Link>
               </nav>
-              </nav>
             </div>
           </div>
         </header>
