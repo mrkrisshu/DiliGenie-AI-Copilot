@@ -1,12 +1,14 @@
 # DiliGenie AI Assistant 🤖
 
-[![CI/CD](https://github.com/krishnabantola/jarvis-rag-assistant/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/krishnabantola/jarvis-rag-assistant/actions)
+> A production-ready AI personal assistant with chat, voice, and document intelligence powered by OpenRouter and Pinecone.
 
-> A production-ready AI personal assistant with chat, voice, and document intelligence powered by OpenRouter and Pinecone. **Now with stunning animated UI and file upload!**
+## 📺 Demo Video
 
-![DiliGenie AI Assistant](https://via.placeholder.com/1200x600/FF4757/FFFFFF?text=DiliGenie+AI+Assistant)
+[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://youtube.com/your-video-link-here)
 
-## 🚀 Quick Start Guide
+*Add your YouTube video link above to show how DiliGenie works!*
+
+## 🚀 Quick Start
 
 ### 1. Install Dependencies
 
@@ -14,90 +16,56 @@
 npm install
 ```
 
-### 2. Configure APIs (15 minutes)
+### 2. Configure Environment
 
-**✅ `.env` file already created!**
-
-You need these API keys:
-
-#### **Required: OpenRouter API** (for AI chat)
-
-1. Visit https://openrouter.ai/keys
-2. Sign up (get $6 free credits!)
-3. Create API key
-4. Add to `.env`:
+Create a `.env` file with your API keys:
 
 ```bash
 OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxx
 OPENROUTER_MODEL=google/gemini-flash-1.5
-```
-
-#### **Optional: Pinecone** (for document search/RAG)
-
-1. Visit https://app.pinecone.io/
-2. Create free account
-3. Create index: `jarvis-knowledge` with dimension `384`
-4. Add to `.env`:
-
-```bash
-PINECONE_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+PINECONE_API_KEY=your-pinecone-key
 PINECONE_ENVIRONMENT=us-east-1-aws
 ```
 
-**📖 See `API-SETUP-GUIDE.md` for detailed instructions!**
+**Get API Keys:**
+- OpenRouter: https://openrouter.ai/keys (get $6 free credits)
+- Pinecone: https://app.pinecone.io/ (free tier available)
 
-### 3. Start Dev Server
+### 3. Start the App
 
 ```bash
 npm run dev
 ```
 
-### 4. Test Your Setup
+Visit http://localhost:3001 to start using DiliGenie!
 
-- **API Test Page:** http://localhost:3001/api-test
-- **Chat Interface:** http://localhost:3001/chat
-- **Landing Page:** http://localhost:3001
+## ✨ Features
 
-## ✨ NEW Features
+- 💬 **AI Chat** - Intelligent conversations with context memory
+- 🎤 **Voice Chat** - Talk to your AI assistant (DiliGenie Live)
+- � **Document Upload** - Upload and chat with your documents (PDF, TXT, MD)
+- 🔍 **RAG Search** - Document intelligence with Pinecone vector search
+- 🎨 **Beautiful UI** - Animated interface with glass-morphism design
+- 📊 **Dashboard** - Weather, news, and quick stats
 
-### 🎨 Animated Chat Interface
+## 🛠️ Tech Stack
 
-- Beautiful ambient gradient background
-- Smooth message animations
-- Mouse-following glow effects
-- Glass-morphism design
-- Typing indicators with animated dots
+**Frontend:** Next.js, React, Tailwind CSS, Framer Motion  
+**Backend:** Next.js API Routes, Node.js  
+**AI/ML:** OpenRouter (LLM), Pinecone (vectors), sentence-transformers (embeddings)  
+**DevOps:** Vercel, GitHub Actions, Jest
 
-### 📎 File Upload System
+## � Author
 
-- Upload PDF, TXT, DOC, DOCX, MD files
-- Automatic chunking and processing
-- Visual attachment display
-- Integration with RAG search
-- 10MB file size limit
+**Krishna Bantola**
 
-### 🔥 DiliGenie Branding
+- GitHub: [@krishnabantola](https://github.com/krishnabantola)
+- LinkedIn: [Krishna Bantola](https://linkedin.com/in/krishnabantola)
 
-- Custom flame logo animation
-- Red/orange gradient theme
-- Rotating logo in header
-- Professional footer with social links
+---
 
-## 🎯 Available Pages
+Made with ❤️ by Krishna Bantola
 
-| Page          | URL          | Description                     |
-| ------------- | ------------ | ------------------------------- |
-| **Landing**   | `/`          | Animated red blob hero section  |
-| **Chat**      | `/chat`      | AI chat with file upload ✨ NEW |
-| **Dashboard** | `/dashboard` | Time, weather, news widgets     |
-| **Knowledge** | `/knowledge` | Document management             |
-| **API Tests** | `/api-test`  | Test your configuration ✨ NEW  |
-
-## 🔌 API Endpoints
-
-| Endpoint         | Description          | Status   |
-| ---------------- | -------------------- | -------- |
-| `/api/chat`      | AI chat with RAG     | ✅ Ready |
 | `/api/upload`    | File upload          | ✅ NEW   |
 | `/api/ingest`    | Document processing  | ✅ Ready |
 | `/api/documents` | List documents       | ✅ Ready |
