@@ -144,7 +144,7 @@ export default async function handler(req, res) {
 
           // Extract text based on file type
           if (docType === "application/pdf" || docName.endsWith(".pdf")) {
-            console.log("📖 Extracting PDF text with PDF.js...");
+            console.log("📖 Extracting PDF text...");
             
             try {
               const { extractTextFromPDF } = require("../../lib/pdf-processor");
@@ -152,7 +152,15 @@ export default async function handler(req, res) {
               text = await extractTextFromPDF(dataBuffer);
             } catch (pdfError) {
               console.error("❌ PDF parsing error:", pdfError);
-              throw new Error(`PDF processing failed: ${pdfError.message}`);
+              
+              // Clean up temp file
+              try {
+                fs.unlinkSync(filePath);
+              } catch (cleanupError) {
+                console.warn("⚠️ Failed to clean up file:", cleanupError);
+              }
+              
+              throw new Error("Unable to process this PDF file. It may be encrypted, password-protected, corrupted, or contain only images. Please convert it to a text file (.txt) or use a different PDF.");
             }
           } else if (docType.startsWith("text/") || docName.endsWith(".txt")) {
             text = fs.readFileSync(filePath, "utf-8");

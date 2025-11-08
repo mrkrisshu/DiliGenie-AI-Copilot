@@ -82,9 +82,19 @@ export default async function handler(req, res) {
             fileContent = await extractTextFromPDF(dataBuffer);
           } catch (pdfError) {
             console.error("❌ PDF parsing error:", pdfError);
-            return res.status(500).json({ 
-              error: `PDF processing failed: ${pdfError.message}`,
-              details: process.env.NODE_ENV === 'development' ? pdfError.stack : undefined
+            
+            // Clean up the uploaded file
+            try {
+              fs.unlinkSync(file.filepath);
+            } catch (cleanupError) {
+              console.warn("⚠️ Failed to clean up file:", cleanupError);
+            }
+            
+            // Return user-friendly error message
+            return res.status(400).json({ 
+              error: "Unable to process this PDF file",
+              message: "This PDF file cannot be processed. It may be encrypted, password-protected, corrupted, or contain only images without text. Please try:\n\n• Converting the PDF to a text file (.txt)\n• Ensuring the PDF is not password-protected\n• Using a different PDF file\n• Uploading as plain text (.txt) or Markdown (.md) instead",
+              suggestion: "For best results, use .txt or .md files which process instantly and reliably."
             });
           }
         } else {
