@@ -183,6 +183,22 @@ export default async function handler(req, res) {
           console.warn("⚠️ Pinecone API key not configured, skipping indexing");
         }
 
+        // Add document to local database for Knowledge Base display
+        try {
+          const { addDocument } = require("../../lib/database");
+          addDocument({
+            id: file.newFilename,
+            title: file.originalFilename,
+            content: fileContent.substring(0, 500), // Store preview
+            size: file.size,
+            chunks: chunks.length,
+            uploadedAt: new Date().toISOString(),
+          });
+          console.log("📝 Added document to local database");
+        } catch (dbError) {
+          console.warn("⚠️ Failed to add to local database:", dbError.message);
+        }
+
         // Send response after indexing completes
         res.status(200).json({
           success: true,
