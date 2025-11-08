@@ -123,7 +123,7 @@ export default async function handler(req, res) {
               console.log("🔄 Starting background indexing for:", file.originalFilename, `(${chunks.length} chunks)`);
               
               // Import embedding and Pinecone functions
-              const { generateEmbedding } = require("../../lib/openrouter");
+              const { generateEmbedding } = require("../../lib/embeddings");
               const { upsertVectors } = require("../../lib/pinecone");
               
               // Process in batches of 10
