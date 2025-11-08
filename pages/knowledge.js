@@ -114,9 +114,9 @@ export default function KnowledgePage() {
                     </ellipse>
                   </svg>
                 </motion.div>
-                <div className="hidden xs:block">
-                  <h1 className="text-base sm:text-lg md:text-xl font-bold leading-tight">
-                    DiliGenie AI Assistant
+                <div>
+                  <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold leading-tight">
+                    DiliGenie
                   </h1>
                   <p className="text-xs text-zinc-400 hidden sm:block">Knowledge Base</p>
                 </div>
@@ -129,12 +129,12 @@ export default function KnowledgePage() {
                   </span>
                 </Link>
                 <Link href="/dashboard">
-                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer hidden sm:inline-block">
+                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
                     Dashboard
                   </span>
                 </Link>
                 <Link href="/">
-                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer hidden md:inline-block">
+                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer hidden sm:inline-block">
                     Home
                   </span>
                 </Link>

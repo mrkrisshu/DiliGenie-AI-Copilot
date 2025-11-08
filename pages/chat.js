@@ -107,12 +107,12 @@ export default function ChatPage() {
                     <circle cx="50" cy="68" r="4" fill="#FFF" opacity="0.9" />
                   </svg>
                 </motion.div>
-                <div className="hidden xs:block sm:block">
-                  <h1 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-tight">
-                    DiliGenie AI Assistant
+                <div>
+                  <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold leading-tight">
+                    DiliGenie
                   </h1>
-                  <p className="text-xs sm:text-sm text-zinc-400 hidden sm:block">
-                    Your Personal AI Companion
+                  <p className="text-xs text-zinc-400 hidden sm:block">
+                    AI Assistant
                   </p>
                 </div>
               </Link>
@@ -130,17 +130,17 @@ export default function ChatPage() {
                 </motion.button>
                 
                 <Link href="/dashboard">
-                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer hidden sm:inline-block">
+                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
                     Dashboard
                   </span>
                 </Link>
                 <Link href="/knowledge">
-                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
+                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer hidden xs:inline-block">
                     Knowledge
                   </span>
                 </Link>
                 <Link href="/">
-                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer hidden md:inline-block">
+                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer hidden sm:inline-block">
                     Home
                   </span>
                 </Link>
