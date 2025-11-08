@@ -112,41 +112,56 @@ export default async function handler(req, res) {
           filename: file.originalFilename,
           size: file.size,
           chunks: chunks.length,
-          message: `File "${file.originalFilename}" uploaded successfully. Indexing in progress...`,
+          message: `File "${file.originalFilename}" uploaded successfully (${chunks.length} chunks created)`,
           processing: true, // Indicates background processing
         });
 
-        // Start ingestion in background AFTER response is sent (fire and forget)
-        if (process.env.PINECONE_API_KEY) {
+        // Start indexing in background AFTER response is sent
+        if (process.env.PINECONE_API_KEY && chunks.length > 0) {
           setImmediate(async () => {
             try {
-              console.log("🔄 Starting background indexing for:", file.originalFilename);
-              const response = await fetch(
-                `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001"}/api/ingest`,
-                {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    filename: file.originalFilename,
-                    content: fileContent,
-                    metadata: {
-                      uploadedAt: new Date().toISOString(),
-                      fileSize: file.size,
-                      fileType: fileExt,
-                    },
-                  }),
-                }
-              );
+              console.log("🔄 Starting background indexing for:", file.originalFilename, `(${chunks.length} chunks)`);
               
-              if (response.ok) {
-                console.log("✅ Background indexing completed for:", file.originalFilename);
-              } else {
-                console.warn("⚠️  Background indexing failed for:", file.originalFilename);
+              // Import embedding and Pinecone functions
+              const { generateEmbedding } = require("../../lib/openrouter");
+              const { upsertVectors } = require("../../lib/pinecone");
+              
+              // Process in batches of 10
+              const BATCH_SIZE = 10;
+              let totalIndexed = 0;
+              
+              for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
+                const batch = chunks.slice(i, i + BATCH_SIZE);
+                
+                // Generate embeddings in parallel
+                const embeddingPromises = batch.map(async (chunk) => {
+                  const embedding = await generateEmbedding(chunk.text);
+                  return {
+                    id: chunk.id,
+                    values: embedding,
+                    metadata: {
+                      text: chunk.text.substring(0, 1000), // Store first 1000 chars
+                      ...chunk.metadata,
+                    },
+                  };
+                });
+                
+                const vectors = await Promise.all(embeddingPromises);
+                
+                // Upsert to Pinecone
+                await upsertVectors(vectors);
+                totalIndexed += vectors.length;
+                
+                console.log(`📊 Indexed ${totalIndexed}/${chunks.length} chunks for: ${file.originalFilename}`);
               }
+              
+              console.log(`✅ Background indexing completed for: ${file.originalFilename} (${totalIndexed} chunks)`);
             } catch (error) {
-              console.warn("⚠️  Background indexing error:", error.message);
+              console.error("⚠️ Background indexing error:", error.message);
             }
           });
+        } else if (!process.env.PINECONE_API_KEY) {
+          console.warn("⚠️ Pinecone API key not configured, skipping indexing");
         }
       } catch (processError) {
         console.error("File processing error:", processError);
