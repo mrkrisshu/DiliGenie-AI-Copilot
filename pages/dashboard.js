@@ -16,13 +16,13 @@ export default function DashboardPage() {
       </Head>
 
       <div className="min-h-screen bg-black">
-        {/* Header */}
-        <header className="bg-zinc-950 border-b border-zinc-800 text-white">
-          <div className="container mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-3">
+        {/* Header - Mobile Optimized */}
+        <header className="bg-zinc-950 border-b border-zinc-800 text-white safe-top">
+          <div className="container mx-auto px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+            <div className="flex items-center justify-between gap-2">
+              <Link href="/" className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                 <motion.div
-                  className="w-10 h-10"
+                  className="w-8 h-8 sm:w-10 sm:h-10"
                   animate={{ rotate: [0, 360] }}
                   transition={{
                     duration: 20,
@@ -114,21 +114,28 @@ export default function DashboardPage() {
                     </ellipse>
                   </svg>
                 </motion.div>
-                <div>
-                  <h1 className="text-xl font-bold">DiliGenie AI Assistant</h1>
-                  <p className="text-xs text-zinc-400">Dashboard</p>
+                <div className="hidden xs:block">
+                  <h1 className="text-base sm:text-lg md:text-xl font-bold leading-tight">
+                    DiliGenie AI Assistant
+                  </h1>
+                  <p className="text-xs text-zinc-400 hidden sm:block">Dashboard</p>
                 </div>
               </Link>
 
-              <nav className="flex items-center gap-2">
+              <nav className="flex items-center gap-1 sm:gap-2">
                 <Link href="/chat">
-                  <span className="px-4 py-2 text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
+                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
                     Chat
                   </span>
                 </Link>
                 <Link href="/knowledge">
-                  <span className="px-4 py-2 text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
+                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer">
                     Knowledge
+                  </span>
+                </Link>
+                <Link href="/">
+                  <span className="touch-target px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer hidden md:inline-block">
+                    Home
                   </span>
                 </Link>
               </nav>

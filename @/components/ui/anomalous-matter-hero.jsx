@@ -172,15 +172,16 @@ export function AnomalousMatterHero({
   return (
     <section
       role="banner"
-      className="relative w-full h-screen bg-black text-white overflow-hidden flex flex-col"
+      className="relative w-full min-h-screen bg-black text-white overflow-hidden flex flex-col"
+      style={{ minHeight: '100vh', minHeight: '-webkit-fill-available' }}
     >
       <Suspense fallback={<div className="w-full h-full bg-black" />}>
         <GenerativeArtScene />
       </Suspense>
 
-      {/* Logo - Top Left */}
-      <div className="absolute top-18 left-8 md:top-22 md:left-12 z-30 flex items-center gap-2.5 opacity-0 animate-fade-in">
-        <div className="relative w-8 h-8 flex-shrink-0">
+      {/* Logo - Top Left - Mobile Optimized */}
+      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-30 flex items-center gap-2 sm:gap-2.5 opacity-0 animate-fade-in safe-top safe-left">
+        <div className="relative w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 100 120"
@@ -239,29 +240,31 @@ export function AnomalousMatterHero({
           </svg>
         </div>
         <div className="flex flex-col justify-center">
-          <h1 className="text-base font-bold text-white leading-none">
+          <h1 className="text-sm sm:text-base font-bold text-white leading-none">
             DiliGenie
           </h1>
         </div>
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent z-10 pointer-events-none" />
-      <div className="relative z-20 flex-1 flex flex-col items-center justify-center text-center px-6">
-        <div className="max-w-5xl px-6 animate-fade-in-long -mt-20">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+      
+      {/* Main Content - Mobile Optimized */}
+      <div className="relative z-20 flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-6 safe-left safe-right">
+        <div className="max-w-5xl w-full animate-fade-in-long -mt-12 sm:-mt-16 md:-mt-20">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 sm:mb-6 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
             Meet DiliGenie — Your AI Copilot for Intelligent Conversations.
           </h1>
-          <p className="mt-4 max-w-3xl mx-auto text-base md:text-lg leading-relaxed text-white drop-shadow-[0_3px_10px_rgba(0,0,0,1)]">
+          <p className="mt-3 sm:mt-4 max-w-3xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed text-white/90 drop-shadow-[0_3px_10px_rgba(0,0,0,1)] px-2">
             Powered by Retrieval-Augmented Generation, DiliGenie helps you chat
             with your documents, automate tasks, and generate insights — all in
             one conversational workspace.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="mt-8 flex gap-4 justify-center items-center flex-wrap">
-            <Link href="/chat">
-              <button className="group relative px-8 py-3.5 bg-transparent text-white text-lg font-semibold rounded-lg hover:bg-white/10 transition-all hover:scale-105 cursor-pointer drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
-                <span className="relative z-10 flex items-center gap-2">
+          {/* CTA Buttons - Mobile Optimized */}
+          <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+            <Link href="/chat" className="w-full sm:w-auto">
+              <button className="touch-target group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-transparent text-white text-base sm:text-lg font-semibold rounded-lg hover:bg-white/10 transition-all hover:scale-105 cursor-pointer drop-shadow-[0_2px_8px_rgba(0,0,0,1)] border border-white/20">
+                <span className="relative z-10 flex items-center justify-center gap-2">
                   Explore DiliGenie
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -280,8 +283,8 @@ export function AnomalousMatterHero({
                 </span>
               </button>
             </Link>
-            <Link href="/dashboard">
-              <button className="group relative px-8 py-3.5 bg-transparent text-white text-lg font-semibold rounded-lg hover:bg-white/10 transition-all hover:scale-105 cursor-pointer drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
+            <Link href="/dashboard" className="w-full sm:w-auto">
+              <button className="touch-target group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-transparent text-white text-base sm:text-lg font-semibold rounded-lg hover:bg-white/10 transition-all hover:scale-105 cursor-pointer drop-shadow-[0_2px_8px_rgba(0,0,0,1)] border border-white/20">
                 View Dashboard
               </button>
             </Link>
@@ -289,27 +292,30 @@ export function AnomalousMatterHero({
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="relative z-30 w-full py-3 px-4 bg-black/90 backdrop-blur-sm">
+      {/* Footer - Mobile Optimized */}
+      <footer className="relative z-30 w-full py-3 sm:py-4 px-4 bg-black/90 backdrop-blur-sm safe-bottom safe-left safe-right">
         <div className="max-w-7xl mx-auto flex items-center justify-center">
-          <div className="flex items-center gap-4 text-base text-gray-400 flex-wrap justify-center">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-400">
             <span className="text-gray-400">Powered by Diligent</span>
-            <span>•</span>
+            <span className="hidden sm:inline">•</span>
             <span>© 2025 DiliGenie</span>
-            <span>•</span>
-            <span className="flex items-center gap-1">
+            <span className="hidden sm:inline">•</span>
+            
+            {/* Made with love - Stack on mobile */}
+            <span className="flex items-center gap-1 w-full sm:w-auto justify-center">
               Made with <span className="text-[#FF4757]">❤️</span> by{" "}
               <span className="text-[#FF6B6B] font-semibold">Krishna</span>
             </span>
-            <span>•</span>
+            
+            <span className="hidden sm:inline">•</span>
 
-            {/* Social Icons */}
-            <div className="flex items-center gap-3">
+            {/* Social Icons - Mobile Optimized */}
+            <div className="flex items-center gap-3 sm:gap-4">
               <a
                 href="https://github.com/mrkrisshu"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-[#FF6B6B] transition-colors"
+                className="touch-target text-gray-400 hover:text-[#FF6B6B] transition-colors p-2 -m-2"
                 aria-label="GitHub"
               >
                 <svg
@@ -328,7 +334,7 @@ export function AnomalousMatterHero({
                 href="https://www.linkedin.com/in/krishna-bantola-74b7b6202/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-[#FF6B6B] transition-colors"
+                className="touch-target text-gray-400 hover:text-[#FF6B6B] transition-colors p-2 -m-2"
                 aria-label="LinkedIn"
               >
                 <svg
@@ -343,7 +349,7 @@ export function AnomalousMatterHero({
                 href="https://krishnabantola.site"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-[#FF6B6B] transition-colors"
+                className="touch-target text-gray-400 hover:text-[#FF6B6B] transition-colors p-2 -m-2"
                 aria-label="Portfolio"
               >
                 <svg
