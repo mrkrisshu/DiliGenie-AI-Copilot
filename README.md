@@ -1,15 +1,17 @@
 # DiliGenie — AI Assistant
 
-[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://www.youtube.com/watch?v=ZRokIGpjVGA)
+[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://www.youtube.com/watch?v=JaczvHQWy_k)
 
 A production-ready personal AI assistant with chat, voice, document Q&A (RAG), and a beautiful UI. This README has been cleaned to remove duplicates and organize setup, usage, and references.
 
 ## Quick Links
-- Live demo video: https://www.youtube.com/watch?v=ZRokIGpjVGA
+- Live demo video: https://www.youtube.com/watch?v=JaczvHQWy_k
 - Local app: http://localhost:3000 (or 3001 depending on config)
-
+- Deployed (Live): 
+https://dili-genie-ai-copilot.vercel.app/
 ## Features
 
+-   Live Converstions
 - 💬 AI Chat with context memory
 - 🎤 Voice chat (Web Speech API)
 - 📄 Document upload + RAG (PDF/TXT/MD)
